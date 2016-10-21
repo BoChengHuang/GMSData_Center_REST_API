@@ -25,4 +25,4 @@ console.log('Magic happens on port ' + port);
 // more routes for our API will happen here
 var apis = require('./routes/apis');
 
-app.use('/api', apis); // test
+app.use('/api', apis);
