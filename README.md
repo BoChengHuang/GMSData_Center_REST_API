@@ -8,7 +8,7 @@ Google Map Street Data Center
 
 * Quick summary: Retrieve Google Map Street Data by Node.js
 * Note: Use Mongodb locally
-* Version 1.0.0
+* Version 1.0.1
 
 # Preparation ###
 
