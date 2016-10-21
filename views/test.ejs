@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6OjzJSDmLhlvelCGbB96roItwP2_jwW4"></script>
+<script type="text/javascript">
+
+    var panoClient = new google.maps.StreetViewService();
+
+    var pano_id_text = <%- '["' + pano_id + '"]' %>;
+    console.log(pano_id_text[0]);
+    panoClient.getPanoramaById(pano_id_text[0], function(result, status) {
+        if (status === google.maps.StreetViewStatus.OK) {
+            var pano = {
+                id: result.location.pano,
+                rotation: result.tiles.centerHeading,
+                pitch: result.tiles.originPitch,
+                copyright: result.copyright,
+                imageDate: result.imageDate,
+                location: result.location,
+                zoom: self.zoom,
+                links: result.links
+            };
+            var jsonToSend = {
+                "id": result.location.pano,
+                "rotaion": result.tiles.centerHeading,
+                "pitch": result.tiles.originPitch,
+                "imageData": result.imageDate,
+                "location": result.location,
+                "zoom": 5,
+                "links": result.links
+            };
+            
+            var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+            xmlhttp.open("POST", "http://127.0.0.1:9999/api/metadata");
+            xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xmlhttp.send(JSON.stringify(jsonToSend));
+            console.log(pano);
+
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

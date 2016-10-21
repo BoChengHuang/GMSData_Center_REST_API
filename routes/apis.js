@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var Gmsdata = require('../app/models/gmsdata');
+var Metadata = require('../app/models/metadata');
 var fs = require('fs');
 var request = require('request').defaults({ encoding: null });
+var ejs = require('ejs');
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
@@ -15,7 +17,8 @@ router.get("/overview", function(req, res) {
     var file = __dirname + '../../public/index.html'                                                     
     res.writeHead(200, {"Content-Type": "text/html"});                                                 
     fs.createReadStream(file).pipe(res);                        
-}); 
+});
+
 
 router.get('/hi', function(req, res) {
     res.json({ message: "HI! API!" });
@@ -170,6 +173,66 @@ router.delete('/gmsdata/:pano_id', function(req, res) {
                 res.send(err);
 
             res.json({ message: 'Successfully deleted' });
+        });
+});
+
+// ========================
+// get all the metadata (accessed at GET http://localhost:9999/api/metadata)
+router.get('/metadata', function(req, res) {
+    console.log(req.ip);
+        Metadata.find(function(err, metadata) {
+            if (err)
+                res.send(err);
+
+            res.json(metadata);
+        });
+});
+
+// get single metadata with pano_id (accessed at GET http://localhost:9999/api/metadata/pano_id=:pano_id)
+router.get('/metadata/pano_id=:pano_id', function(req, res) {
+        Metadata.find({id: req.params.pano_id}, function(err, metadata) {
+            if (err)
+                res.send(err);
+
+            if (metadata.length == 0) {
+                var dataArr = [req.params.pano_id];
+                res.render('test.ejs', {pano_id: dataArr});
+            }
+
+            //res.json(metadata);
+        });
+});
+
+// save metadata with json (accessed at GET http://localhost:9999/api/metadata)
+router.post('/metadata', function(req, res) {
+
+    var json = req.body;
+    console.log(json);
+    
+    var metadata = new Metadata();
+    metadata.id = json.id;
+    metadata.rotaion = json.rotaion;
+    metadata.pitch = json.pitch;
+    metadata.imageData = json.imageData;
+    metadata.location = json.location;
+    metadata.zoom = json.zoom;
+    metadata.links = json.links;
+    metadata.save(function(err) {
+        if (err)
+            res.json({ message: err });
+        else {
+            res.json({ message: 'Data created!' });
+            }
+    });
+});
+
+// delete single gmsdata (accessed at GET http://localhost:9999/api/gmsdata:id)
+router.delete('/metadata/deleteAll', function(req, res) {
+        Metadata.remove({}, function(err, metadata) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Successfully deleted all' });
         });
 });
 

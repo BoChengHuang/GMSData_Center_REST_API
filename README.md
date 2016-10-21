@@ -8,7 +8,7 @@ Google Map Street Data Center
 
 * Quick summary: Retrieve Google Map Street Data by Node.js
 * Note: Use Mongodb locally
-* Version 1.0.1
+* Version 2.0.0
 
 # Preparation ###
 
@@ -21,8 +21,8 @@ Google Map Street Data Center
 
 1. Oepn your Terminal/Command Line Tool.
 
-2. Run mongodb server: `"program path\MongoDB\Server\3.2\bin\mongod.exe" --dbpath /path/GMAPIServer/mongodb/data`
-   if want to use console: `C:/Program Files\MongoDB\Server\3.2\bin\mongod.exe`
+2. Run mongodb server: "program path\MongoDB\Server\3.2\bin\mongod.exe" --dbpath /path/GMAPIServer/mongodb/data
+   if want to use console: C:/Program Files\MongoDB\Server\3.2\bin\mongod.exe
 
 3. go to Project Path: 
     `cd /path`
@@ -30,7 +30,7 @@ Google Map Street Data Center
 5. Install modeules: 
     `npm install` (if you encouter permission problems: sudo npm install)
 
-6. Run with: `npm start`
+6. Run with: npm start
 
 	* GET simple item
 	* GET all items

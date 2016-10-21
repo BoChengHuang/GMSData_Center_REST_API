@@ -7,13 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./server.js"
   },
-  "author": "BochengGHuang\u001b[D\u001b[D\u001b[D\u001b[D\u001b[\u001b[D\u001b[D\u001b[D\u001b[C",
+  "author": "BochengHuang",
   "license": "ISC",
   "dependencies": {
     "express": "~4.0.0",
     "mongoose": "~4.1.11",
     "body-parser": "~1.0.1",
-    "request": "*"
+    "request": "*",
+    "ejs": "^1.0.0",
+    "path": "*"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
