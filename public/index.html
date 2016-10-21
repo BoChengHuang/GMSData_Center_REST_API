@@ -8,12 +8,14 @@
 <h2>Usage</h2>
 <ul>
   <li>Test API: <br>GET 140.118.155.33:9999/api/hi</li>
-  <li>See all items: <br>GET 140.118.155.33:9999/api/gmsdata</li>
-  <li>Find single item by id: <br>GET 140.118.155.33:9999/api/gmsdata/:id</li>
+  <li>See all Gmsdatas: <br>GET 140.118.155.33:9999/api/gmsdata</li>
+  <li>Get gmsdatas item by pano_id, x, y: <br>GET 140.118.155.33:9999/api/gmsdata/pano_id:id&x:x&y:y</li>
   <li>Update single item by id: <br>PUT 140.118.155.33:9999/api/gmsdata/:id</li>
-  <li>Delete single item by id: <br>DELETE 140.118.155.33:9999/api/gmsdata/:id</li>
-  <li>Create an item: <br>POST 140.118.155.33:9999/api/gmsdata?name='testName'</li>
-  <li><a href="http://140.118.155.33:8888/tree">Source codes</a></li>
+  <li>Delete single item by pano_id: <br>DELETE 140.118.155.33:9999/api/gmsdata/inner/:id</li>
+  <li>Import an item: <br>POST 140.118.155.33:9999/api/gmsdata?pano_id:id&x:x&y:y</li>
+  <li>Delete all: <br>DELETE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+  <li><a href="http://140.118.155.33:8888/tree">Edit Server codes</a></li>
+  <li><a href="https://github.com/BoChengHuang/GMSData_Center">Source codes</a></li>
 </ul>
 <p>Reference:</p>
     <a href="https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4">REST API</a><br>
