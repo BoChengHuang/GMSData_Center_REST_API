@@ -15,7 +15,8 @@
     "body-parser": "~1.0.1",
     "request": "*",
     "ejs": "^1.0.0",
-    "path": "*"
+    "path": "*",
+    "xml2js": "*"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

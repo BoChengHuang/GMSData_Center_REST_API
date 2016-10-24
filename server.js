@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:9999/api/metadata');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:7777');
     // res.setHeader('Access-Control-Allow-Origin', 'http://140.118.155.33:9999/api/metadata');
 
     // Request methods you wish to allow

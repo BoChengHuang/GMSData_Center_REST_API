@@ -5,11 +5,13 @@ var GMSSchema   = new Schema({
     id: String,
     rotation: String,
     pitch: Number,
-    copyright: Number,
+    copyright: String,
     imageDate: String,
     location: Object,
     zoom: Number,
-    links: Object
+    links: Object,
+    lat: Number,
+    lng: Number
 });
 
 module.exports = mongoose.model('metadata', GMSSchema);
