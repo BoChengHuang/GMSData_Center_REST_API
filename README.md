@@ -1,4 +1,4 @@
-# GMSData_Center
+# GMSData_Center_REST_API
 Google Map Street Data Center
 
 [![Node.js 4.4.5](https://img.shields.io/badge/Node.js-4.4.5-orange.svg)](https://nodejs.org/en/)
