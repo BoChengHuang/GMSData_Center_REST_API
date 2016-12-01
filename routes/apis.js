@@ -18,7 +18,7 @@ router.use(function(req, res, next) {
 });
 
 router.get("/overview", function(req, res) {  
-    var file = __dirname + '../../public/index.html'                                                     
+    var file = 'public/index.html'                                                     
     res.writeHead(200, {"Content-Type": "text/html"});                                                 
     fs.createReadStream(file).pipe(res);                      
 });
@@ -279,43 +279,45 @@ router.get('/panoramaXML/pano_id=:pano_id', function(req, res) {
 // get xml data with latlng (accessed at GET http://localhost:9999/api/panoramaXML/pano_id=:pano_id)
 router.get('/panoramaXML/lat=:lat&lng=:lng', function(req, res) {
         
-    request_data_by_ll(req.params.lat, req.params.lng, function(result) {
-        //res.json(result);
-        var pano_id = result[0].pano_id;
-        console.log(pano_id);
-        
-        Panorama.find({pano_id: pano_id}, function(err, panorama) {
-            if (err)
-                res.send(err);
+    request_data_by_ll(req.params.lat, req.params.lng, function(result, err) {
+        if (err != null) {
+            res.json(err)
+        } else {
+            //res.json(result);
+            var pano_id = result[0].pano_id;
+            console.log(pano_id);
 
-            if (panorama.length == 0) {
+            Panorama.find({pano_id: pano_id}, function(err, panorama) {
+                if (err)
+                    res.send(err);
 
-                var panorama = new Panorama();      // create a new instance of the gmsdata model
-                panorama.pano_id = pano_id;  // set the gmsdata name (comes from the request)
+                if (panorama.length == 0) {
 
-                request_metadata_xml(panorama.pano_id, function(result, err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    panorama.links = result;
-                    console.log(result);
+                    var panorama = new Panorama();      // create a new instance of the gmsdata model
+                    panorama.pano_id = pano_id;  // set the gmsdata name (comes from the request)
 
-                    panorama.save(function(err) {
-                        if (err)
-                            res.json({ message: err });
-                        else {
-                            res.json({ message: 'Data created!', content: result});
+                    request_metadata_xml(panorama.pano_id, function(result, err) {
+                        if (err) {
+                            console.log(err);
                         }
-                    });
+                        panorama.links = result;
+                        console.log(result);
 
-                });      
-            } else {
-                res.json(panorama);
-            }
-        });
+                        panorama.save(function(err) {
+                            if (err)
+                                res.json({ message: err });
+                            else {
+                                res.json({ message: 'Data created!', content: result});
+                            }
+                        });
+
+                    });      
+                } else {
+                    res.json(panorama);
+                }
+            });
+        }
     });
-    
-    
 });
 
 // get all xml data (accessed at GET http://localhost:9999/api/panoramaXML)
@@ -417,15 +419,20 @@ function request_data_by_ll(lat, lng, callback) { // not cool so far
             if (!error && response.statusCode == 200) {
                 
                 parser.parseString(body, function (err, result) {
-                    var pano_id = result.panorama.data_properties[0].$.pano_id;
-                    var links = result.panorama.annotation_properties[0].link;
-                    var datas = [];
-                    datas.push({"pano_id": pano_id});
-                    for (var i = 0; i < links.length; i++) {
-                        datas.push(links[i].$);
+                    if (result.length > 0) {
+                        var pano_id = result.panorama.data_properties[0].$.pano_id;
+                        var links = result.panorama.annotation_properties[0].link;
+                        var datas = [];
+                        datas.push({"pano_id": pano_id});
+                        for (var i = 0; i < links.length; i++) {
+                            datas.push(links[i].$);
+                        }
+                        callback(datas, null);
                     }
-                    callback(datas, null);
-
+                    else {
+                        console.log("no panorama");
+                        callback(null, 'no panorama');
+                    }
                 });
                 
             } else {
